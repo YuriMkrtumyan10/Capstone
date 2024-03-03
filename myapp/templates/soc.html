@@ -1,0 +1,17 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}SOC GPT{% endblock %}
+
+{% block content %}
+<div id="chat-box" class="col-9">
+    {% include 'layouts/chatbox.html' %}
+
+    <form id="chat-form" method="post" action="{% url 'soc' %}">
+        {% csrf_token %}
+        <input type="hidden" id="type" value="{{type}}">
+        <input type="text" name="user_input" placeholder="Type your message..."  autofocus id="user_input">
+        <button type="submit">Send</button>
+        <div class=""></div>
+    </form>
+</div>
+{% endblock %}

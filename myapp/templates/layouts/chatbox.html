@@ -1,0 +1,26 @@
+
+<div class="messages">
+
+    {% if chat_history %}
+        {% for message in chat_history %}
+            <div class="message"> 
+                <div class="message asker">
+                  User:
+                </div>
+                <div class="message user">
+                 <p> {{ message.user }}</p> 
+                </div>
+            </div>
+            {% if message.bot %}
+            <div class="message"> 
+                <div class="message answerer">
+                    Bot:
+                </div>
+                <div class="message bot">
+                 <p> {{ message.bot }}</p> 
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>
