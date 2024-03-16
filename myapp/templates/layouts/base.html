@@ -5,20 +5,23 @@
     <meta charset="UTF-8">
     <title>{% block title %}CyberBot Chat{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../../static/css/main.css">
 
 </head>
 <body>
+    <div class="gradient"></div>
+
     <div class="container">
         {% include 'layouts/header.html' %} <!-- Include the header from a separate file -->
 
-    <div class="row">   
-        {% include 'layouts/agents.html' %} <!-- Include the header from a separate file -->
-      
-        {% block content %}
-        <!-- This block will be overridden by child templates -->
-        {% endblock %}
-    </div>
+        <div class="row">   
+            
+            {% block content %}
+
+            <!-- This block will be overridden by child templates -->
+            {% endblock %}
+        </div>
         <footer>
             <!-- Footer content here -->
         </footer>

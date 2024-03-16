@@ -21,5 +21,6 @@ urlpatterns = [
     path('', include('main.urls')),
     path('admin/', admin.site.urls),
     path('soc/', include('myapp.urls')),
+    # path('soc/agent', include('myapp.urls')),
 
 ]
