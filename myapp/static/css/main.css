@@ -90,6 +90,7 @@ header {
   flex-direction: column; /* Stack image and text vertically */
   align-items: center; /* Center align the content */
   justify-content: center; /* Center content vertically */
+  
 }
 
 .agent button{
@@ -104,10 +105,17 @@ header {
   height: 20px; 
 }
 
+.toggle_conversations {
+    color: var(--conversations);
+    cursor: pointer; 
+    padding-left: 5px;
+    padding-bottom: 5px;
+}
 .agent_button {
   padding: 8px 12px;
-  display: flex;
+  display: inline-flex;
   gap: 3px;
+  width: 180px;
   align-items: center;
   cursor: pointer;
   user-select: none;
@@ -159,6 +167,10 @@ header {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.bottom_buttons button i {
+    color: var(--conversations);
 }
 
 .bottom_buttons button {
@@ -293,30 +305,21 @@ header {
     filter: blur(calc(0.5 * 70vw)) opacity(var(--opacity));
 }
 
-/* .conversations {
+.convo {
+    margin-top: 5px;
+    padding: 8px 15px;
     display: flex;
-    flex-direction: column;
-    gap: 16px;
-    flex: auto;
-    min-width: 0;
-}
-
-.conversations .title {
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.conversations .convo {
-    padding: 8px 12px;
-    display: flex;
-    gap: 18px;
     align-items: center;
     user-select: none;
     justify-content: space-between;
+    transition: background-color 0.3s ease;
 }
 
-.conversations .convo .left {
-    cursor: pointer;
+.convo:hover {
+    background-color: #382e3d;
+}
+
+.convo .left {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -324,16 +327,26 @@ header {
     min-width: 0;
 }
 
-.conversations i {
-    color: var(--conversations);
-    cursor: pointer;
-} */
-
 .convo-title {
     color: var(--colour-3);
     font-size: 14px;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-decoration: none; 
+}
+
+.convo i {
+    color: var(--conversations);
+    cursor: pointer;
+}
+
+#cursor {
+    line-height: 17px;
+    margin-left: 3px;
+    -webkit-animation: blink 0.8s infinite;
+    animation: blink 0.8s infinite;
+    width: 7px;
+    height: 15px;
 }
 
 @keyframes show_message {
@@ -509,7 +522,6 @@ select {
 .input-box {
     display: flex;
     align-items: center;
-    padding-right: 15px;
     cursor: pointer;
 }
 
@@ -528,11 +540,8 @@ select {
 
 
 
-.conversations .top {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    overflow: auto;
+.conversations {
+    display: none;
 }
 
 #cursor {
@@ -604,8 +613,23 @@ ul {
     width: 100%;
 }
 
-#send_button {
+.send_button {
     position: absolute;
+    background-color: transparent;
+    border: none;
+    right: 0px;
+    width: 50px;
+    height: 40px;
+    margin-top: 8px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+.send_button:hover{
+    background-color: #382e3d;
+}
+.send_button i{
+    cursor: pointer;
+    color: white;
 }
 
 .grecaptcha-badge {
@@ -654,11 +678,6 @@ ul {
 }
 
 @media screen and (max-width: 990px) {
-    .conversations {
-        display: none;
-        width: 100%;
-        max-width: none;
-    }
 
     .buttons {
     flex-wrap: wrap;

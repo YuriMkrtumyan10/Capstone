@@ -12,12 +12,12 @@
         </div>
         <div class="user-input">
             <div class="box input-box">
-                <form id="chat-form" method="post" action="{% url 'soc' %}">
+                <form id="chat-form" method="post" action="{% url 'main' %}">
                     {% csrf_token %}
                     <input type="hidden" id="type" value="{{ type }}">
                     <input id="message-input" type="text" name="user_input" placeholder="Type your message..."  autofocus>
-                    <button id="send_button" type="submit"> 
-                        <i class="fa-regular fa-paper-plane"></i>
+                    <button type="submit" class="send_button">
+                        <i class="fas fa-arrow-up"></i>
                     </button>
                 </form>
             </div>

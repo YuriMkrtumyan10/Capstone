@@ -1,47 +1,55 @@
     <div class="agents_box">
     <div class="top_buttons">
-        <div class="agent">
-            <a class="agent_button" href="/soc">
+        <!-- <div class="agent">
+            <a class="agent_button" href="/main">
                 <span>bot</span>
             </a>
-        </div>
-        <div class="agent">
-            <a class="agent_button" href="/soc/incident-responder">
-                <img src="../../static/images/agent1.png" alt="Incident Responder">
-                <span>Incident Responder</span>
-            </a>
-        </div>
-        <div class="agent">
-            <a class="agent_button" href="/soc/network-engineer">
-                <img src="../../static/images/agent2.png" alt="Network Engineer">
-                <span>Network Engineer</span>
-            </a>
-        </div>
-        <div class="agent">
-            <a class="agent_button" href="/soc/soc-analyst">
-                <img src="../../static/images/agent3.png" alt="SOC Analyst">
-                <span>SOC Analyst</span>
-            </a>
-        </div>
-        <div class="agent">
-            <a class="agent_button" href="/soc/pentest-specialist">
-                <img src="../../static/images/agent4.png" alt="Pentest Specialist">
-                <span>Pentest Specialist</span>
-            </a>
-        </div>
+            {% if conversation_history %}
+                {% for conversation in conversation_history %}
+                    <a href="/main/{{conversation.guid}}">{{ conversation.title }}</a><br>
+                {% endfor %}
+            {% endif %}
+        </div> -->
+        {% for agent in agents %}
+            <div class="agent" >
+                <a class="agent_button" data-agent="{{ agent.type }}" href="/{{ agent.type }}">
+                    {% if agent.image %}
+                        <img src="../../static/images/{{ agent.image }}.png" alt="{{ agent.name }}">
+                    {% endif %}
+                    <span>{{ agent.name }}</span>
+                </a>
+                <i class="toggle_conversations fas fa-caret-down" data-agent="{{ agent.type }}"></i>
+
+                {% if agent.conversations %}
+                    <div class="conversations" data-conversations-for="{{ agent.type }}" >
+                        {% for conversation in agent.conversations %}
+                        <div class="convo">
+                            <div class="left">
+                                <i class="fa-regular fa-comments"></i>
+                                <a class="convo-title" href="/{{ agent.type }}/{{ conversation.guid }}">{{ conversation.title }}</a><br>
+                            </div>
+                            <i class="fa fa-trash" data-guid="{{ conversation.guid }}" data-agent="{{ agent.type }}"></i>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
     </div>
     <div class="bottom_buttons">
+        
         <button>
-            <i class="fa-regular fa-trash"></i>
             <span>Clear Conversations</span>
+            <i class="fa fa-trash"></i>
         </button>
-        <div class="info">
-            <i class="fa-regular fa-circle-info"></i>
-            <span class="convo-title">
-                By: @roba<br>
-                Version: 0.0.1-beta<br>
-                Release: 2023-04-18<br>
-            </span>
-        </div>
+    </div>
+    <div class="info">
+        <i class="fa-regular fa-circle-info"></i>
+        <span class="convo-title">
+            By: @roba<br>
+            Version: 0.0.1-beta<br>
+            Release: 2023-04-18<br>
+        </span>
     </div>
     </div>

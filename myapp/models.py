@@ -14,13 +14,14 @@ class Conversation(models.Model):
     guid = models.CharField(max_length=16, unique=True, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=255)
-
+    type = models.CharField(max_length=60, default=None)
+    
     def save(self, *args, **kwargs):
         if not self.guid:
             # Generate a unique hash for the guid field
             self.guid = hashlib.sha1(uuid.uuid4().bytes).hexdigest()[:16]
         super().save(*args, **kwargs)
-
+    
     def __str__(self):
         return self.title
 

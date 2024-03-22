@@ -7,25 +7,25 @@
 </div> -->
 
 <input type="hidden" id="guid" value="{{ guid }}">
-    {% if chat_history != [] %}
-        {% for message in chat_history %}
-            <div class="message"> 
-                <div class="message asker">
-                  User:
-                </div>
-                <div class="message user">
-                 <p> {{ message.getQuestion()|safe }}</p> 
-                </div>
+{% if chat_history %}
+    {% for message in chat_history %}
+        <div class="message"> 
+            <div class="message asker">
+              User:
             </div>
-            {% if message.bot %}
-            <div class="message"> 
-                <div class="message answerer">
-                    Bot:
-                </div>
-                <div class="message bot">
-                 {{ message.getAnswer()|safe }}
-                </div>
+            <div class="message user">
+             <p> {{ message.getQuestion|safe }}</p> 
             </div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+        </div>
+        {% if message.answer %}
+        <div class="message"> 
+            <div class="message answerer">
+                Bot:
+            </div>
+            <div class="message bot">
+             {{ message.getAnswer|safe }}
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}

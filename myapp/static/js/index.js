@@ -9,28 +9,28 @@ $(document).ready(function() {
 
         if (user_input) {
             $('#message-input').val('');
-            $.post('/soc/send-message', {
+            $.post('/send-message', {
                 'user_input': user_input,
                 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                'type': $('#type').val()
+                'type': $('#type').val(),
+                'guid': $('#guid').val()
             }).done((res) => {
                 $('.messages').html(res); // Update chat box with response
                // scrollToBottom();
 
-                let guid = $('#guid').value()
+                let guid = $('#guid').val()
                 
                 var currentUrl = window.location.href;
-
                 var urlParts = currentUrl.split('/');
-                var parameterValue = urlParts[urlParts.length - 1];
+                var parameterValue = urlParts[urlParts.length - 2];
 
                 // Check if the parameter value matches your variable
                 if (parameterValue !== guid) {
                     // Replace the parameter value in the URL with your desired value
-                    var newUrl = currentUrl.replace(parameterValue, guid);
+                    // var newUrl = currentUrl.replace(parameterValue, guid);
                     
                     // Redirect to the new URL
-                    window.location.href = newUrl;
+                    window.location.href = guid;
                 }
             }).fail((jqXHR, textStatus, errorThrown) => {
                 console.error("Request failed: " + textStatus + ", " + errorThrown);
@@ -71,6 +71,7 @@ $(document).ready(function() {
     //         });
     //     });
     // }
+    
     function copyCode() {
         var codeBlock = $(this).next("pre");
         var text = codeBlock.text();
@@ -86,4 +87,77 @@ $(document).ready(function() {
 
     // Attach click event to all copy buttons
     $('.copy-btn').on('click', copyCode);
+
+
+
+    
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    
+    function deleteConversation(guid, agentType) {
+        const csrftoken = getCookie('csrftoken');
+    
+        fetch(`/delete-conversation/${guid}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({'guid': guid})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.status === 'success') {
+                window.location.href = `/${agentType}/`;
+            } else {
+                alert(data.message);
+            }
+        });
+    }
+
+    $('body').on('click', 'i[data-guid]', function() {
+        var guid = $(this).attr('data-guid');
+        var agentType = $(this).data('agent');
+        deleteConversation(guid, agentType);
+    });
+
+    // $('.agent_button').click(function(event) {
+    //     event.preventDefault();
+        
+    //     var agentType = $(this).attr('data-agent');
+        
+    //     // Toggle the corresponding conversations
+    //     var $conversations = $('[data-conversations-for="' + agentType + '"]');
+    //     $conversations.slideToggle();
+    
+    //     // Change URL - navigate to the agent's page
+    //     window.history.pushState(null, '', '/' + agentType + '/');
+    // });
+
+
+    $('body').on('click', '.toggle_conversations', function() {
+        var agentType = $(this).data('agent');
+        var $conversations = $('[data-conversations-for="' + agentType + '"]');
+        $conversations.slideToggle();  
+    });
+
+    $('.agent_button').click(function(event) {
+        event.preventDefault();
+        var agentType = $(this).data('agent');
+        window.location.href = `/${agentType}/`;
+    });
+    
 });
