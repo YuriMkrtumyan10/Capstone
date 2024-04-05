@@ -333,6 +333,7 @@ header {
     overflow: hidden;
     text-overflow: ellipsis;
     text-decoration: none; 
+    width: 110px;
 }
 
 .convo i {

@@ -9,6 +9,19 @@
 <input type="hidden" id="guid" value="{{ guid }}">
 {% if chat_history %}
     {% for message in chat_history %}
+
+        {% if message.file_id %}
+        <div class="message"> 
+            <div class="message answerer">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/1667px-PDF_file_icon.svg.png" width="20" alt="">
+                File:
+            </div>
+            <div class="message bot">
+            {{ message.file_id }}
+            </div>
+        </div>
+        {% endif %}
+        <br>
         <div class="message"> 
             <div class="message asker">
               User:

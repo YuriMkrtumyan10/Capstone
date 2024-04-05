@@ -1,14 +1,7 @@
 from django.db import models
 import hashlib
 import uuid
-from .helpers import format_as_gpt_print
-
-# Create your models here.
-
-# class Chat(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-
+from .helpers.formater import format_as_gpt_print
 
 class Conversation(models.Model):
     guid = models.CharField(max_length=16, unique=True, editable=False)
@@ -30,6 +23,7 @@ class Message(models.Model):
     conversation = models.ForeignKey(Conversation, related_name='messages', on_delete=models.CASCADE)
     question = models.TextField()
     answer = models.TextField()
+    file_id = models.CharField(max_length=50, blank=False, null=True)
 
     def __str__(self):
         return f"{self.conversation.title} - Message {self.pk}"
@@ -39,3 +33,4 @@ class Message(models.Model):
     
     def getAnswer(self):
         return format_as_gpt_print(self.answer)
+    

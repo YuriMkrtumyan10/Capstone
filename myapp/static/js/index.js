@@ -6,35 +6,43 @@ $(document).ready(function() {
 
     function sendMessage() {
         var user_input = $('#message-input').val();
-
         if (user_input) {
             $('#message-input').val('');
-            $.post('/send-message', {
-                'user_input': user_input,
-                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                'type': $('#type').val(),
-                'guid': $('#guid').val()
-            }).done((res) => {
-                $('.messages').html(res); // Update chat box with response
-               // scrollToBottom();
+            var fileInput = $('#file-upload')[0].files[0];
 
-                let guid = $('#guid').val()
-                
-                var currentUrl = window.location.href;
-                var urlParts = currentUrl.split('/');
-                var parameterValue = urlParts[urlParts.length - 2];
+            var formData = new FormData();
 
-                // Check if the parameter value matches your variable
-                if (parameterValue !== guid) {
-                    // Replace the parameter value in the URL with your desired value
-                    // var newUrl = currentUrl.replace(parameterValue, guid);
+            formData.append('file_upload', fileInput);
+
+            formData.append('user_input', user_input);
+            formData.append('csrfmiddlewaretoken', $('input[name=csrfmiddlewaretoken]').val());
+            formData.append('type', $('#type').val());
+            formData.append('guid', $('#guid').val());
+
+            $.ajax({
+                url: '/send-message',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    $('.messages').html(res); // Update chat box with response
+                   // scrollToBottom();
+    
+                    let guid = $('#guid').val()
                     
-                    // Redirect to the new URL
-                    window.location.href = guid;
+                    var currentUrl = window.location.href;
+                    var urlParts = currentUrl.split('/');
+                    var parameterValue = urlParts[urlParts.length - 2];
+    
+                    if (parameterValue !== guid) {
+                        window.location.href = guid;
+                    }
+                },
+                error: function(xhr, status, status) {
+                    console.error("Request failed: " + status + ", " + status);
                 }
-            }).fail((jqXHR, textStatus, errorThrown) => {
-                console.error("Request failed: " + textStatus + ", " + errorThrown);
-            });;
+            });
         }
     }
 
@@ -107,57 +115,94 @@ $(document).ready(function() {
     }
 
     
-    function deleteConversation(guid, agentType) {
-        const csrftoken = getCookie('csrftoken');
+    // function deleteConversation(guid, agentType) {
+    //     const csrftoken = getCookie('csrftoken');
     
-        fetch(`/delete-conversation/${guid}/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrftoken,
-            },
-            body: JSON.stringify({'guid': guid})
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.status === 'success') {
-                window.location.href = `/${agentType}/`;
-            } else {
-                alert(data.message);
-            }
-        });
-    }
+    //     fetch(`/delete-conversation/${guid}/`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'X-CSRFToken': csrftoken,
+    //         },
+    //         body: JSON.stringify({'guid': guid})
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if(data.status === 'success') {
+    //             window.location.href = `/${agentType}/`;
+    //         } else {
+    //             alert(data.message);
+    //         }
+    //     });
+    // }
 
-    $('body').on('click', 'i[data-guid]', function() {
-        var guid = $(this).attr('data-guid');
-        var agentType = $(this).data('agent');
-        deleteConversation(guid, agentType);
+    $('.remove-conversation').on('click', function() {
+        if (confirm('Are you sure?')) {
+            $.post(
+                '/delete-conversation/' + $(this).closest('.convo').data('guid'), {
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),                
+            }).done((res) => {
+                window.location = '/' + $(this).closest('.conversations').data('conversations-for');
+            });
+        }
     });
+
+    $('body').on('click', '.toggle_conversations', function() {
+        $(this).next().toggle();
+    });
+
+    $('.toggle_conversations.active').click();
 
     // $('.agent_button').click(function(event) {
     //     event.preventDefault();
-        
-    //     var agentType = $(this).attr('data-agent');
-        
-    //     // Toggle the corresponding conversations
-    //     var $conversations = $('[data-conversations-for="' + agentType + '"]');
-    //     $conversations.slideToggle();
+    //     var agentType = $(this).data('agent');
+    //     window.location.href = `/${agentType}/`;
+    // });
     
-    //     // Change URL - navigate to the agent's page
-    //     window.history.pushState(null, '', '/' + agentType + '/');
+    // $('body').on('click', '.clear_conversations', function() {
+    //     event.preventDefault();
+    //     console.log('Clear conversation button clicked');
+    //     clearConversations();
     // });
 
+    // function clearConversations() {
+    //     console.log('Entered - conversation button clicked');
+    //     fetch('/clear-conversations/', {
+    //         method: 'POST',
+    //         headers: {
+    //             'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value
+    //         }
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if (data.status === 'success') {
+    //             alert('All conversations deleted successfully');
+    //             // Optionally, you can reload the page after deleting conversations
+    //             location.reload();
+    //         } else {
+    //             alert('Failed to delete conversations');
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error('Error:', error);
+    //         alert('An error occurred while deleting conversations');
+    //     });
+    // }
 
-    $('body').on('click', '.toggle_conversations', function() {
-        var agentType = $(this).data('agent');
-        var $conversations = $('[data-conversations-for="' + agentType + '"]');
-        $conversations.slideToggle();  
-    });
 
-    $('.agent_button').click(function(event) {
-        event.preventDefault();
-        var agentType = $(this).data('agent');
-        window.location.href = `/${agentType}/`;
-    });
-    
+    // function getClassFromFragment() {
+    //     return window.location.hash.substring(1); // Exclude the '#' symbol
+    // }
+
+    // // Get the class from the URL fragment
+    // var className = getClassFromFragment();
+
+    // // Check if the class exists in the document
+    // var divWithClass = document.querySelector('.' + className);
+    // if (divWithClass) {
+    //     // Scroll to the div
+    //     divWithClass.scrollIntoView();
+    // } else {
+    //     console.error('Div with class', className, 'not found');
+    // }
 });

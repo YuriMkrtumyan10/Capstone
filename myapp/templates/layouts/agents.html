@@ -18,38 +18,43 @@
                     {% endif %}
                     <span>{{ agent.name }}</span>
                 </a>
-                <i class="toggle_conversations fas fa-caret-down" data-agent="{{ agent.type }}"></i>
-
+                
+                <a href="#" class="toggle_conversations {% if agent.name == type %}active{% endif %}" data-agent="{{ agent.type }}">
+                    <i class=" fas fa-caret-down"></i>
+                </a>
                 {% if agent.conversations %}
                     <div class="conversations" data-conversations-for="{{ agent.type }}" >
                         {% for conversation in agent.conversations %}
-                        <div class="convo">
-                            <div class="left">
-                                <i class="fa-regular fa-comments"></i>
-                                <a class="convo-title" href="/{{ agent.type }}/{{ conversation.guid }}">{{ conversation.title }}</a><br>
+                            <div class="convo" data-guid="{{ conversation.guid }}">
+                                <div class="left">
+                                    <i class="fa-regular fa-comments"></i>
+                                    <a class="convo-title" href="/{{ agent.type }}/{{ conversation.guid }}">{{ conversation.title }}</a><br>
+                                </div>
+                                <a class="remove-conversation">
+                                    <i class="fa fa-trash"></i>
+                                </a>
                             </div>
-                            <i class="fa fa-trash" data-guid="{{ conversation.guid }}" data-agent="{{ agent.type }}"></i>
-                        </div>
                         {% endfor %}
                     </div>
                 {% endif %}
             </div>
         {% endfor %}
-
     </div>
+
     <div class="bottom_buttons">
-        
-        <button>
+        <button class="clear_conversations">
             <span>Clear Conversations</span>
             <i class="fa fa-trash"></i>
         </button>
+    
+        <div class="info">
+            <i class="fa-regular fa-circle-info"></i>
+            <span class="convo-title">
+                By: @roba<br>
+                Version: 0.0.1-beta<br>
+                Release: 2023-04-18<br>
+            </span>
+        </div>
     </div>
-    <div class="info">
-        <i class="fa-regular fa-circle-info"></i>
-        <span class="convo-title">
-            By: @roba<br>
-            Version: 0.0.1-beta<br>
-            Release: 2023-04-18<br>
-        </span>
-    </div>
-    </div>
+
+</div>
