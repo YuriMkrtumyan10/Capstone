@@ -17,11 +17,7 @@ def delete_conversation(request, guid):
         return JsonResponse({'status': 'failed', 'message': 'Invalid request method'})
     
 @require_POST
-def clear_conversations(request):
-    if request.method == 'POST':
-        Conversation.objects.all().delete()
-        return JsonResponse({'status': 'success', 'message': 'All conversations deleted successfully'})
-    else:
-        return JsonResponse({'status': 'failed', 'message': 'Invalid request method'})
-
+def delete_all_conversation(request):
+    Conversation.objects.all().delete()
+    return JsonResponse({'status': 'success', 'message': 'All conversations deleted successfully'})
     

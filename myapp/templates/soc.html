@@ -15,11 +15,16 @@
                 <form id="chat-form" method="post" action="{% url 'main' %}" enctype='multipart/form-data'>
                     {% csrf_token %}
                     <input type="hidden" id="type" value="{{ type }}">
-                    <input id="message-input" type="text" name="user_input" placeholder="Type your message..."  autofocus>
-                    <input type="file" name="file_upload" id="file-upload">
-                    <button type="submit" class="send_button">
-                        <i class="fas fa-arrow-up"></i>
-                    </button>
+                    <input type="file" name="file_upload" id="file-upload" style="display: none;">
+                    <div class="form-content">
+                        <button type="text" class="upload-image">
+                            <i class="fas fa-file"></i>
+                        </button>
+                        <input id="message-input" type="text" name="user_input" placeholder="Type your message..."  autofocus>
+                        <button type="submit" class="send_button">
+                            <i class="fas fa-arrow-up"></i>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

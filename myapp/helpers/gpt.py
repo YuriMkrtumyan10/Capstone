@@ -5,8 +5,11 @@ def chatgpt_query(messages):
     client = OpenAI(
         api_key='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',
     )
-    print(messages)
     completion = client.chat.completions.create(
+        # model="gpt-4-turbo-preview",
+        # model="gpt-4-1106-vision-preview",
+        # messages=messages
+        
         model="gpt-4-vision-preview",
         messages=messages
     )

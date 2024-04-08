@@ -4,6 +4,14 @@ $(document).ready(function() {
         sendMessage();
     });
 
+    $('#chat-form').keypress(function(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+
+            event.preventDefault(); // Prevent default action (form submission)
+        }
+    });
+
     function sendMessage() {
         var user_input = $('#message-input').val();
         if (user_input) {
@@ -96,24 +104,6 @@ $(document).ready(function() {
     // Attach click event to all copy buttons
     $('.copy-btn').on('click', copyCode);
 
-
-
-    
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
     
     // function deleteConversation(guid, agentType) {
     //     const csrftoken = getCookie('csrftoken');
@@ -137,15 +127,28 @@ $(document).ready(function() {
     // }
 
     $('.remove-conversation').on('click', function() {
-        if (confirm('Are you sure?')) {
+        if ($(this).closest('#confirmationModal').attr('data-id')) {
             $.post(
-                '/delete-conversation/' + $(this).closest('.convo').data('guid'), {
+                '/delete-conversation/' + $(this).closest('#confirmationModal').attr('data-id'), {
                 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),                
             }).done((res) => {
-                window.location = '/' + $(this).closest('.conversations').data('conversations-for');
+                window.location = '/' + $(this).closest('#confirmationModal').attr('data-for');
+            });
+        } else {
+
+            $.post('/delete-all-conversations', {
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),                
+            }).done((res) => {
+                window.location = '/main';
             });
         }
     });
+
+    $('.remove-button').on('click', function() {
+        let guid = $(this).closest('.convo').data('guid');
+        $('#confirmationModal').attr('data-id', guid)
+        $('#confirmationModal').attr('data-for', $(this).closest('.conversations').data('conversations-for'))
+    })
 
     $('body').on('click', '.toggle_conversations', function() {
         $(this).next().toggle();
@@ -160,10 +163,13 @@ $(document).ready(function() {
     // });
     
     // $('body').on('click', '.clear_conversations', function() {
-    //     event.preventDefault();
-    //     console.log('Clear conversation button clicked');
-    //     clearConversations();
+    //     if (confirm('Are you sure?')) {
+    //     }
     // });
+
+    $('.upload-image').on('click', function() {
+        $('#file-upload').click();
+    });
 
     // function clearConversations() {
     //     console.log('Entered - conversation button clicked');

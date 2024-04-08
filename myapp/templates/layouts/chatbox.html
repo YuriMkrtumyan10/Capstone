@@ -22,23 +22,24 @@
         </div>
         {% endif %}
         <br>
-        <div class="message"> 
-            <div class="message asker">
+        <div class="message" style="text-align: right;"> 
+            <div class="message asker" style="color: greenyellow;">
               User:
             </div>
-            <div class="message user">
+            <div class="message user" id="asker_message">
              <p> {{ message.getQuestion|safe }}</p> 
             </div>
         </div>
         {% if message.answer %}
         <div class="message"> 
-            <div class="message answerer">
+            <div class="message answerer" style="color: red;">
                 Bot:
             </div>
-            <div class="message bot">
+            <div class="message bot" id="bot_message">
              {{ message.getAnswer|safe }}
             </div>
         </div>
         {% endif %}
     {% endfor %}
 {% endif %}
+

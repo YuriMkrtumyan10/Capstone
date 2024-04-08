@@ -4,11 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
+    <link rel="stylesheet" href="../static/css/welcome.css">
 </head>
 <body>
-    <h1>Welcome</h1>
-    <div>
-        <a href="/soc">soc</a>
+    
+    <div class='console-container'>
+        <span id='text'></span>
+        <div class='console-underscore' id='console'>
+            &#95;
+        </div>
     </div>
+
+    <div class="gradient"></div>
+    <div class="container col-6 min-vh-100">
+
+        <div id="gpts">
+            <button type="submit" id="gpt_button">
+                <span>SOC</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="../static/js/welcome.js"></script>
 </body>
 </html>
