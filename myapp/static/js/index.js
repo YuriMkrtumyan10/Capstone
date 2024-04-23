@@ -1,20 +1,25 @@
+function textAreaAdjust(element) {
+    element.style.height = "1px";
+    element.style.height = (10+element.scrollHeight)+"px";
+  }
+
 $(document).ready(function() {
     $('#chat-form').submit(function(event) {
         event.preventDefault();
         sendMessage();
     });
 
-    $('#chat-form').keypress(function(event) {
-        if (event.key === 'Enter') {
-            sendMessage();
-
-            event.preventDefault(); // Prevent default action (form submission)
-        }
-    });
+    // $('#chat-form').keypress(function(event) {
+    //     if (event.key === 'Enter') {
+    //         sendMessage();
+    //         event.preventDefault(); 
+    //     }
+    // });
 
     function sendMessage() {
         var user_input = $('#message-input').val();
         if (user_input) {
+            $("#loadingMessage").show();
             $('#message-input').val('');
             var fileInput = $('#file-upload')[0].files[0];
 
@@ -34,9 +39,7 @@ $(document).ready(function() {
                 processData: false,
                 contentType: false,
                 success: function(res) {
-                    $('.messages').html(res); // Update chat box with response
-                   // scrollToBottom();
-    
+                    $('.messages').html(res); 
                     let guid = $('#guid').val()
                     
                     var currentUrl = window.location.href;
@@ -52,42 +55,9 @@ $(document).ready(function() {
                 }
             });
         }
+
     }
 
-    // Function to scroll chat container to the bottom
-    function scrollToBottom() {
-        var chatContainer = $('.messages');
-        chatContainer.css('overflow', 'hidden')
-        chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
-        chatContainer.css('overflow', 'auto')
-    }
-
-    // Initially scroll to the bottom when the page is loaded
-   // scrollToBottom();
-    
-
-    // $('.agent').submit(function(event) {
-    //     event.preventDefault();
-    //     changeAgent();
-    // });
-
-    // function changeAgent() {
-        
-    //     document.addEventListener('DOMContentLoaded', (event) => {
-    //         // Select all elements with the class 'agent'
-    //         const agents = document.querySelectorAll('.agent');
-        
-    //         agents.forEach((agent, index) => {
-    //             // Add a click event listener to each agent
-    //             agent.addEventListener('click', function() {
-    //                 // Change the URL hash based on the agent index
-    //                 // Increment index by 1 to start counting from 1 instead of 0
-    //                 window.location.hash = 'agent' + (index + 1);
-    //             });
-    //         });
-    //     });
-    // }
-    
     function copyCode() {
         var codeBlock = $(this).next("pre");
         var text = codeBlock.text();
@@ -101,30 +71,7 @@ $(document).ready(function() {
             });
     }
 
-    // Attach click event to all copy buttons
     $('.copy-btn').on('click', copyCode);
-
-    
-    // function deleteConversation(guid, agentType) {
-    //     const csrftoken = getCookie('csrftoken');
-    
-    //     fetch(`/delete-conversation/${guid}/`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'X-CSRFToken': csrftoken,
-    //         },
-    //         body: JSON.stringify({'guid': guid})
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         if(data.status === 'success') {
-    //             window.location.href = `/${agentType}/`;
-    //         } else {
-    //             alert(data.message);
-    //         }
-    //     });
-    // }
 
     $('.remove-conversation').on('click', function() {
         if ($(this).closest('#confirmationModal').attr('data-id')) {
@@ -155,60 +102,9 @@ $(document).ready(function() {
     });
 
     $('.toggle_conversations.active').click();
-
-    // $('.agent_button').click(function(event) {
-    //     event.preventDefault();
-    //     var agentType = $(this).data('agent');
-    //     window.location.href = `/${agentType}/`;
-    // });
     
-    // $('body').on('click', '.clear_conversations', function() {
-    //     if (confirm('Are you sure?')) {
-    //     }
-    // });
-
     $('.upload-image').on('click', function() {
         $('#file-upload').click();
     });
 
-    // function clearConversations() {
-    //     console.log('Entered - conversation button clicked');
-    //     fetch('/clear-conversations/', {
-    //         method: 'POST',
-    //         headers: {
-    //             'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value
-    //         }
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         if (data.status === 'success') {
-    //             alert('All conversations deleted successfully');
-    //             // Optionally, you can reload the page after deleting conversations
-    //             location.reload();
-    //         } else {
-    //             alert('Failed to delete conversations');
-    //         }
-    //     })
-    //     .catch(error => {
-    //         console.error('Error:', error);
-    //         alert('An error occurred while deleting conversations');
-    //     });
-    // }
-
-
-    // function getClassFromFragment() {
-    //     return window.location.hash.substring(1); // Exclude the '#' symbol
-    // }
-
-    // // Get the class from the URL fragment
-    // var className = getClassFromFragment();
-
-    // // Check if the class exists in the document
-    // var divWithClass = document.querySelector('.' + className);
-    // if (divWithClass) {
-    //     // Scroll to the div
-    //     divWithClass.scrollIntoView();
-    // } else {
-    //     console.error('Div with class', className, 'not found');
-    // }
 });

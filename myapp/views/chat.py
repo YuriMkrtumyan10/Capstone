@@ -14,7 +14,6 @@ def main(request, guid = None):
 
 def agent(request, type, guid = None):
     conversation, messages = find_conversation(guid)
-    print(messages)
     bringAgentsConversations()
     return render(request, 'soc.html', {
         'chat_history': messages,

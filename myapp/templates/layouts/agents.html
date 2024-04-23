@@ -1,15 +1,5 @@
     <div class="agents_box">
     <div class="top_buttons">
-        <!-- <div class="agent">
-            <a class="agent_button" href="/main">
-                <span>bot</span>
-            </a>
-            {% if conversation_history %}
-                {% for conversation in conversation_history %}
-                    <a href="/main/{{conversation.guid}}">{{ conversation.title }}</a><br>
-                {% endfor %}
-            {% endif %}
-        </div> -->
         {% for agent in agents %}
             <div class="agent" >
                 <a class="agent_button" data-agent="{{ agent.type }}" href="/{{ agent.type }}">
@@ -28,7 +18,7 @@
                             <div class="convo" data-guid="{{ conversation.guid }}">
                                 <div class="left">
                                     <i class="fa-regular fa-comments"></i>
-                                    <a class="convo-title" href="/{{ agent.type }}/{{ conversation.guid }}">{{ conversation.title }}</a><br>
+                                    <a class="convo-title" href="/{{ agent.type }}/{{ conversation.guid }}">{{ conversation.title|truncatechars:30 }}</a><br>
                                 </div>
                                 <button class="btn remove-button" data-toggle="modal" data-target="#confirmationModal">
                                     <i class="fa fa-trash"></i>

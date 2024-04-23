@@ -24,6 +24,7 @@ class Message(models.Model):
     question = models.TextField()
     answer = models.TextField()
     file_id = models.CharField(max_length=50, blank=False, null=True)
+    agent = models.CharField(max_length=100, null=False, blank=False) 
 
     def __str__(self):
         return f"{self.conversation.title} - Message {self.pk}"

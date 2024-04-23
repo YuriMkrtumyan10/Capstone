@@ -24,7 +24,7 @@
         <br>
         <div class="message" style="text-align: right;"> 
             <div class="message asker" style="color: greenyellow;">
-              User:
+                <span style="color: rgb(9, 212, 252);">[~]$</span>  User:
             </div>
             <div class="message user" id="asker_message">
              <p> {{ message.getQuestion|safe }}</p> 
@@ -33,7 +33,7 @@
         {% if message.answer %}
         <div class="message"> 
             <div class="message answerer" style="color: red;">
-                Bot:
+                <span style="color: rgb(9, 212, 252);">[~]$</span>  {{ message.agent }}:
             </div>
             <div class="message bot" id="bot_message">
              {{ message.getAnswer|safe }}
@@ -43,3 +43,6 @@
     {% endfor %}
 {% endif %}
 
+<div id="loadingMessage" style="color: red; display: none;">
+    <span style="color: rgb(9, 212, 252);">[~]$</span>  {{ message.agent }}:
+</div>

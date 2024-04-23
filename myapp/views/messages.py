@@ -3,6 +3,7 @@ from openai import OpenAI
 from ..helpers.conversation import load_conversation, load_messages, update_conversation
 from ..helpers.gpt import chatgpt_query
 from ..helpers.pdf import handlePDF, load_pdf
+from ..helpers.communication import handle_communication
 
 def send_message(request):
     pdf_name = None
@@ -18,8 +19,9 @@ def send_message(request):
         images_count, pdf_name = handlePDF(file)
         messages = load_pdf(messages, pdf_name)
 
-    response = chatgpt_query(messages)
-    messages_in_conversation = update_conversation(conversation, messages_in_conversation, messages, user_input, response, pdf_name)
+    response, agents = handle_communication(messages)
+    agents.insert(0, type)
+    messages_in_conversation = update_conversation(conversation, messages_in_conversation, messages, user_input, response, pdf_name, agents)
     
     return render(request, 'layouts/chatbox.html', {
         'chat_history': messages_in_conversation,

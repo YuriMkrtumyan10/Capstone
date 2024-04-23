@@ -47,7 +47,7 @@ def load_messages(conversation, user_input, type):
 
     messages.append({"role": "user", "content": user_input})
     
-    if type and type != 'main':
+    if type:
         file_path = os.path.join(settings.BASE_DIR, 'myapp', 'static', 'source', type, 'system.md')
 
         with open(file_path, 'r') as file:
@@ -58,7 +58,7 @@ def load_messages(conversation, user_input, type):
         )
     return messages_in_conversation, messages
 
-def update_conversation(conversation, messages_in_conversation, messages, user_input, bot_response, file_id):
+def update_conversation(conversation, messages_in_conversation, messages, user_input, bot_response, file_id, agents):
 
     messages.append({"role": "bot", "content": bot_response})
 
@@ -66,8 +66,27 @@ def update_conversation(conversation, messages_in_conversation, messages, user_i
         conversation=conversation,
         question=user_input,
         answer=bot_response,
-        file_id=file_id
+        file_id=file_id,
+        agent=', '.join(agents)
     )
     messages_in_conversation = messages_in_conversation | Message.objects.filter(pk=last_message.pk)
 
     return messages_in_conversation
+
+def agent_with_message(type, message):
+    messages = []
+    if type:
+        file_path = os.path.join(settings.BASE_DIR, 'myapp', 'static', 'source', type, 'system.md')
+
+        with open(file_path, 'r') as file:
+            pattern = file.read()
+        messages.insert(
+            0,
+            {"role": "system", "content": pattern}
+        )
+        messages.insert(
+            1,
+            {"role": "user", "content": message}
+        )
+
+    return messages

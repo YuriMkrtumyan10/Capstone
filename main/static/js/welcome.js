@@ -48,12 +48,3 @@
       }
     }, 400)
   }
-
-
-  var button = document.getElementById("gpt_button");
-
-  // Add a click event listener to the button
-  button.addEventListener("click", function() {
-      // Redirect to the specified URL
-      window.location.href = "/main";
-  });
