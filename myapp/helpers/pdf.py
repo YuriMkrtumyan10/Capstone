@@ -37,13 +37,13 @@ def handlePDF(file):
     with open(file_path, 'wb') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
-
-    count = extract_images_from_pdf(file_hash)
-
-    return count, file_hash
-
-def load_pdf(messages, file_name):
     
+    extract_images_from_pdf(file_hash)
+
+    return file_hash
+
+def load_pdf(file_name):
+    messages = []
     if file_name:
         file_content = extract_pdf_text(file_name)
         content = get_images_base64(file_name)
@@ -88,7 +88,6 @@ def extract_images_from_pdf(pdf_name):
                 image_file.write(image_bytes)
 
     pdf_document.close()
-    return img_index
 
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:

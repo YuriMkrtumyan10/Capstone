@@ -656,9 +656,8 @@ ul {
     visibility: hidden;
 }
 
-#loadingMessage{
-    width: 50px;
-    height: 50px;
+.loading-message {
+    display: none;
 }
 
 .messages {
@@ -731,6 +730,9 @@ ul {
     display: flex;
 }
 
+.file-selected {
+    background-color: yellow; /* Change this to the style you want when a file is selected */
+}
 
 a:-webkit-any-link {
     color: #ffffff;
@@ -748,6 +750,7 @@ a:-webkit-any-link {
     outline: none;
     color: var(--colour-3);
     resize: vertical;
+    resize: none;
 }
 
 /* CSS for code block formatting */
@@ -772,3 +775,7 @@ a:-webkit-any-link {
 .copy-btn:hover {
     background-color: #0056b3;
 }
+
+
+
+/* UPLOAD */

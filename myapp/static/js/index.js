@@ -17,21 +17,23 @@ $(document).ready(function() {
     // });
 
     function sendMessage() {
-        var user_input = $('#message-input').val();
-        if (user_input) {
-            $("#loadingMessage").show();
+        var userInput = $('#message-input').val();
+        var fileInput = $('#file-upload')[0].files[0];
+        if (userInput || fileInput) {
+            $(".loading-message").show();
+            $(".loading-message .message.user p").eq(1).text(userInput);
+            debugger
             $('#message-input').val('');
-            var fileInput = $('#file-upload')[0].files[0];
 
             var formData = new FormData();
 
             formData.append('file_upload', fileInput);
 
-            formData.append('user_input', user_input);
+            formData.append('user_input', userInput);
             formData.append('csrfmiddlewaretoken', $('input[name=csrfmiddlewaretoken]').val());
             formData.append('type', $('#type').val());
             formData.append('guid', $('#guid').val());
-
+            
             $.ajax({
                 url: '/send-message',
                 type: 'POST',
@@ -107,4 +109,14 @@ $(document).ready(function() {
         $('#file-upload').click();
     });
 
+    document.getElementById('file-upload').addEventListener('change', function() {
+        var formContent = document.getElementById('form-content');
+        if (this.files && this.files.length > 0) {
+            formContent.classList.add('file-selected');
+        } else {
+            formContent.classList.remove('file-selected');
+        }
+    });
+
+    
 });

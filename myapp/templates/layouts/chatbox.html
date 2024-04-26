@@ -17,7 +17,7 @@
                 File:
             </div>
             <div class="message bot">
-            {{ message.file_id }}
+                <span>{{ message.file_id }}</span>
             </div>
         </div>
         {% endif %}
@@ -27,7 +27,8 @@
                 <span style="color: rgb(9, 212, 252);">[~]$</span>  User:
             </div>
             <div class="message user" id="asker_message">
-             <p> {{ message.getQuestion|safe }}</p> 
+                <p></p>
+                <p> {{ message.question }}</p> 
             </div>
         </div>
         {% if message.answer %}
@@ -43,6 +44,23 @@
     {% endfor %}
 {% endif %}
 
-<div id="loadingMessage" style="color: red; display: none;">
-    <span style="color: rgb(9, 212, 252);">[~]$</span>  {{ message.agent }}:
+<div class="loading-message">
+    <br>
+    <div class="message" style="text-align: right;"> 
+        <div class="message asker" style="color: greenyellow;">
+            <span style="color: rgb(9, 212, 252);">[~]$</span>  User:
+        </div>
+        <div class="message user" id="asker_message">
+            <p></p>
+            <p></p> 
+        </div>
+    </div>
+    <div class="message"> 
+        <div class="message answerer" style="color: red;">
+            <span style="color: rgb(9, 212, 252);">[~]$</span>
+        </div>
+        <div class="message bot" id="bot_message">
+            <p>...</p>
+        </div>
+    </div>
 </div>

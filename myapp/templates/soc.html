@@ -17,7 +17,7 @@
                     <input type="hidden" id="type" value="{{ type }}">
                     <input type="file" name="file_upload" id="file-upload" style="display: none;">
                     <div class="form-content">
-                        <button type="text" class="upload-image">
+                        <button type="text" class="upload-image"  id="upload-button">
                             <i class="fas fa-file"></i>
                         </button>
                         <textarea oninput="textAreaAdjust(this)" id="message-input" type="text" name="user_input" placeholder="Type your message..."  autofocus></textarea>
@@ -33,4 +33,5 @@
     
 
 {% endblock %}
+
 

@@ -13,13 +13,15 @@ def send_message(request):
     default_title = user_input
     conversation = load_conversation(guid, default_title, type)
     messages_in_conversation, messages = load_messages(conversation, user_input, type)
-
+    file_messages = []
+    
     if 'file_upload' in request.FILES:
         file = request.FILES['file_upload']
-        images_count, pdf_name = handlePDF(file)
-        messages = load_pdf(messages, pdf_name)
+        pdf_name = handlePDF(file)
+        file_messages = load_pdf(pdf_name)
+        messages = messages + file_messages
 
-    response, agents = handle_communication(messages)
+    response, agents = handle_communication(file_messages, messages)
     agents.insert(0, type)
     messages_in_conversation = update_conversation(conversation, messages_in_conversation, messages, user_input, response, pdf_name, agents)
     

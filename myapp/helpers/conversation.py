@@ -43,8 +43,8 @@ def load_messages(conversation, user_input, type):
     for msg in messages_in_conversation:
         messages.append({"role": "user", "content": msg.question})
         messages.append({"role": "assistant", "content": msg.answer})
-        messages = load_pdf(messages, msg.file_id)
-
+        file_messages = load_pdf(msg.file_id)
+        messages = messages + file_messages
     messages.append({"role": "user", "content": user_input})
     
     if type:
@@ -90,3 +90,13 @@ def agent_with_message(type, message):
         )
 
     return messages
+
+# def load_files(conversation):
+#     messages_with_file = Message.objects.filter(conversation=conversation)
+#     messages_with_file = Message.objects.filter(conversation=conversation)
+#     print('_______________________load_files')
+#     print(conversation)
+#     print(messages_with_file)
+#     print('_______________________load_files')
+#     file_ids = messages_with_file.values_list('file_id', flat=True)
+#     return file_ids
