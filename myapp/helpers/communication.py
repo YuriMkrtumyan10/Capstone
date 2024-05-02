@@ -7,7 +7,7 @@ def handle_communication(file_messages, messages):
     response = chatgpt_query(messages)
     found_tags = checkBotTags(response)
     tags = []
-
+    print(response)
     for tag, message, file_required in found_tags:
         tags.append(tag)
         res_m = agent_with_message(modifyTag(tag), message)
@@ -28,8 +28,9 @@ def checkBotTags(message):
     results = []
     for match in matches:
         tag, file_required, content = match
-        file_required = file_required.strip() if file_required else None
-        results.append((tag, content.strip(), bool(file_required)))
+        if 'FROM' not in tag:
+            file_required = file_required.strip() if file_required else None
+            results.append((tag, content.strip(), bool(file_required)))
     return results
  
 def replaceBotTags(message, tag, res, file_required=False):

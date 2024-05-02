@@ -61,13 +61,18 @@ body {
 }
 
 #gpt_button{
-    background-color: transparent;
+    background-color: #15302c85;
     width: 200px;
     height: 50px;
     border: 1px dashed #00d4b185;
     border-radius: 10px;
     transition: background-color 0.3s ease;
     color: white;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
 }
 
 #gpt_button:hover{

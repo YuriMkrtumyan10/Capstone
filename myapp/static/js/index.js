@@ -1,13 +1,60 @@
 function textAreaAdjust(element) {
     element.style.height = "1px";
-    element.style.height = (10+element.scrollHeight)+"px";
-  }
+    element.style.height = (10+element.scrollHeight) - 7 +"px";
+}
 
+
+function copyCode(button) {
+    // Get the <code> element containing the text
+    const code = button.previousElementSibling.querySelector('code');
+    // Create a temporary textarea element to copy the text
+    const textarea = document.createElement('textarea');
+    textarea.textContent = code.textContent;
+    document.body.appendChild(textarea);
+    textarea.select(); // Select the text
+    document.execCommand('copy'); // Copy the selected text
+    document.body.removeChild(textarea); // Remove the temporary element
+    // Optionally, display a message or change the button text
+    button.textContent = 'Copied!';
+    setTimeout(() => { button.textContent = 'Copy'; }, 2000);
+}
 $(document).ready(function() {
+
+    $('pre code').each(function() {
+        hljs.highlightElement(this);
+    });
+
     $('#chat-form').submit(function(event) {
         event.preventDefault();
         sendMessage();
     });
+    $('#file-upload').on('change', function(e){
+        var file = e.target.files[0];
+        var fileDiv = $('.uploaded-file-temp').clone().removeClass('uploaded-file-temp').addClass('uploaded-file');
+        fileDiv.prependTo('.user-input');
+        fileDiv.find('span').text(file.name);
+        // $('.uploaded-file-temp').remove(); 
+    });
+    
+    $(document).on('click', '.delete-file', function() {
+        clearInputFile($("#file-upload"));
+        $(this).parent().remove();
+    });
+
+    function clearInputFile(input) {
+        if (input.val()) {
+          try {
+            input.val('');
+          } catch (err) {}
+          if (input.val()) {
+            var form = $('<form></form>'),
+              ref = input.next();
+            form.append(input);
+            form[0].reset();
+            ref.before(input);
+          }
+        }
+      }
 
     // $('#chat-form').keypress(function(event) {
     //     if (event.key === 'Enter') {
@@ -22,7 +69,6 @@ $(document).ready(function() {
         if (userInput || fileInput) {
             $(".loading-message").show();
             $(".loading-message .message.user p").eq(1).text(userInput);
-            debugger
             $('#message-input').val('');
 
             var formData = new FormData();
@@ -57,21 +103,10 @@ $(document).ready(function() {
                 }
             });
         }
+        scrollToBottom();
 
     }
-
-    function copyCode() {
-        var codeBlock = $(this).next("pre");
-        var text = codeBlock.text();
-
-        navigator.clipboard.writeText(text)
-            .then(() => {
-                alert("Code copied to clipboard!");
-            })
-            .catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-    }
+    
 
     $('.copy-btn').on('click', copyCode);
 
@@ -88,7 +123,7 @@ $(document).ready(function() {
             $.post('/delete-all-conversations', {
                 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),                
             }).done((res) => {
-                window.location = '/main';
+                window.location = '/orchestrator';
             });
         }
     });
@@ -109,14 +144,23 @@ $(document).ready(function() {
         $('#file-upload').click();
     });
 
-    document.getElementById('file-upload').addEventListener('change', function() {
-        var formContent = document.getElementById('form-content');
-        if (this.files && this.files.length > 0) {
-            formContent.classList.add('file-selected');
-        } else {
-            formContent.classList.remove('file-selected');
-        }
-    });
+    function scrollToBottom() {
+        var chatContainer = $('.messages');
+        chatContainer.css('overflow', 'hidden')
+        chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
+        chatContainer.css('overflow', 'auto')
+    }
+
+    scrollToBottom();
+
+    // document.getElementById('file-upload').addEventListener('change', function() {
+    //     var formContent = document.getElementById('form-content');
+    //     if (this.files && this.files.length > 0) {
+    //         formContent.classList.add('file-selected');
+    //     } else {
+    //         formContent.classList.remove('file-selected');
+    //     }
+    // });
 
     
 });

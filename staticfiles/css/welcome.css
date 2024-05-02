@@ -1,0 +1,81 @@
+@import url(https://fonts.googleapis.com/css?family=Khula:700);
+body {
+  background: #111;
+}
+.hidden {
+  opacity:0;
+}
+.console-container {
+ 
+  font-family:Khula;
+  font-size:4em;
+  text-align:center;
+  height:200px;
+  width:870px;
+  display:block;
+  position:absolute;
+  color:white;
+  top:0;
+  bottom:300px;
+  left:0;
+  right:0;
+  margin:auto;
+}
+.console-underscore {
+   display:inline-block;
+  position:relative;
+  top:-0.14em;
+  left:10px;
+}
+
+
+
+
+.gradient:nth-child(1) {
+    --top: 0;
+    --right: 0;
+    --size: 70vw;
+    --blur: calc(0.5 * var(--size));
+    --opacity: 0.3;
+    animation: zoom_gradient 6s infinite;
+}
+
+.gradient {
+    position: absolute;
+    z-index: -1;
+    border-radius: calc(0.5 * var(--size));
+    background-color: var(--accent);
+    background: radial-gradient(circle at center, var(--accent), var(--accent));
+    width: 70vw;
+    height: 70vw;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    filter: blur(calc(0.5 * 70vw)) opacity(var(--opacity));
+}
+
+
+#gpts{
+    text-align: center;
+    margin-top: 50vh;
+}
+
+#gpt_button{
+    background-color: #15302c85;
+    width: 200px;
+    height: 50px;
+    border: 1px dashed #00d4b185;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    color: white;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+#gpt_button:hover{
+    background-color: #0f2923;
+    border: 1px solid #00d4b185;
+}

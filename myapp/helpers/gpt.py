@@ -16,9 +16,10 @@ def chatgpt_query(messages):
         # model="gpt-4-1106-vision-preview",
         # messages=messages
         
-        # model="gpt-3.5-turbo",
-        model="gpt-4-vision-preview",
+        model="gpt-3.5-turbo",
+        # model="gpt-4-vision-preview",
         messages=messages,
+        
     )
 
     

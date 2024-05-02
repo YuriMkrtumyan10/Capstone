@@ -16,7 +16,7 @@ def find_conversation(guid):
     else:
         conversation = Conversation.objects.filter(guid=guid)[0]
         if not(conversation):
-            return redirect('main')
+            return redirect('orchestrator')
          # load data
         messages = Message.objects.filter(conversation=conversation)
 
