@@ -56,7 +56,7 @@ Tasks:
 You should direct the Network Engineer to examine the provided network diagram description for potential bottlenecks or misconfigurations.
 Delegation to the Network Engineer should look like something like this:
     [NETWORK_ENGINEER_START]
-    Hello Network Engineer here is the short description of the issue user gave me - "description..........." and here is the description of the      network diagram - "description of the nework diagram.........."
+    Hello Network Engineer here is the short description of the issue user gave me - "description..........." and here is the description of the network diagram - "description of the nework diagram.........."
     [NETWORK_ENGINEER_END]
 
 You should instruct the Log Analyzer to review recent logs for abnormalities in traffic flow or error rates.

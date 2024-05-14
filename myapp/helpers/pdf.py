@@ -4,17 +4,9 @@ import pdfplumber
 from .gpt import chatgpt_query
 import hashlib
 import base64
+import fitz  # PyMuPDF
 
 directory = os.path.join(settings.BASE_DIR, 'myapp', 'static', 'pdf')
-
-# def pdf_answer():
-#     pdf = os.path.join(settings.BASE_DIR, 'myapp', 'static', 'pdf', 'cyber_kch.pdf')
-#     query = 'Explain the image in the pdf'
-
-#     pdf_text = extract_pdf_text(pdf)
-#     chatgpt_response = chatgpt_query(query, pdf_text)
-
-#     return chatgpt_response, pdf_text
 
 def extract_pdf_text(pdf_name):
     text = ""
@@ -64,10 +56,8 @@ def load_pdf(file_name):
 
     return messages
 
-import fitz  # PyMuPDF
 
 def extract_images_from_pdf(pdf_name):
-    # Create a subdirectory to store images
     image_directory = os.path.join(directory, 'pdf_images', pdf_name)
     os.makedirs(image_directory, exist_ok=True)
 

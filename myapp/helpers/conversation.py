@@ -90,13 +90,3 @@ def agent_with_message(type, message):
         )
 
     return messages
-
-# def load_files(conversation):
-#     messages_with_file = Message.objects.filter(conversation=conversation)
-#     messages_with_file = Message.objects.filter(conversation=conversation)
-#     print('_______________________load_files')
-#     print(conversation)
-#     print(messages_with_file)
-#     print('_______________________load_files')
-#     file_ids = messages_with_file.values_list('file_id', flat=True)
-#     return file_ids
