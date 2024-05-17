@@ -69,7 +69,7 @@ $(document).ready(function() {
         if (userInput || fileInput) {
             $(".loading-message").show();
             $(".loading-message .message.user p").eq(1).text(userInput);
-            $('#message-input').val('');
+            $('#message-input').val('').trigger('input');
 
             var formData = new FormData();
 
@@ -105,6 +105,7 @@ $(document).ready(function() {
         }
         scrollToBottom();
 
+        $('.delete-file').click();
     }
     
 

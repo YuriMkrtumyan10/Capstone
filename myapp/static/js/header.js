@@ -44,3 +44,81 @@ function consoleText(words, id) {
     con.className = 'console-underscore hidden';
   }, words[0].length * 120);
 }
+
+const defaultTheme = {
+  '--accent': '#3dffd6',
+  '--blur-border': '#00d4b185',
+  '--conversations': '#00d4b185',
+  '--hover': '#1e686064',
+  '--input-buttons': '#13af95f6'
+};
+
+const lightTheme = {
+  '--accent': '#ff6347', // Tomato
+  '--blur-border': '#ffa07a', // Light Salmon
+  '--conversations': '#f25d27', // Orange Red
+  '--hover': '#ff634764',
+  '--input-buttons': '#ff4500f6' // Orange Red (with slight transparency)
+};
+
+const blueTheme = {
+  '--accent': '#1e90ff', // Dodger Blue
+  '--blur-border': '#87cefa', // Light Sky Blue
+  '--conversations': '#4682b4', // Steel Blue
+  '--hover': '#1e90ff64',
+  '--input-buttons': '#1e90fff6' // Dodger Blue (with slight transparency)
+};
+
+
+function applyTheme(theme) {
+  for (let key in theme) {
+      document.documentElement.style.setProperty(key, theme[key]);
+  }
+}
+
+function saveTheme(themeName) {
+  localStorage.setItem('selectedTheme', themeName);
+}
+
+function loadTheme() {
+  const selectedTheme = localStorage.getItem('selectedTheme');
+  if (selectedTheme) {
+      document.getElementById(selectedTheme).checked = true;
+      switch (selectedTheme) {
+          case 'light':
+              applyTheme(lightTheme);
+              break;
+          case 'blue':
+              applyTheme(blueTheme);
+              break;
+          default:
+              applyTheme(defaultTheme);
+              break;
+      }
+  } else {
+      applyTheme(defaultTheme);
+  }
+}
+
+document.getElementById('default').addEventListener('change', function() {
+  if (this.checked) {
+      applyTheme(defaultTheme);
+      saveTheme('default');
+  }
+});
+
+document.getElementById('light').addEventListener('change', function() {
+  if (this.checked) {
+      applyTheme(lightTheme);
+      saveTheme('light');
+  }
+});
+
+document.getElementById('blue').addEventListener('change', function() {
+  if (this.checked) {
+      applyTheme(blueTheme);
+      saveTheme('blue');
+  }
+});
+
+loadTheme();
