@@ -14,8 +14,8 @@ def chatgpt_query(messages):
     completion = client.chat.completions.create(
         # model="gpt-4-turbo-preview",
         # model="gpt-4-1106-vision-preview",
-        model="gpt-4-vision-preview",
-        # model="gpt-3.5-turbo",
+        # model="gpt-4-vision-preview",
+        model="gpt-3.5-turbo",
         messages=messages,
         
     )
